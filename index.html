@@ -107,7 +107,7 @@
 
 <div class="w-full max-w-3xl glass-card rounded-3xl overflow-hidden flex flex-col shadow-2xl relative">
     
-    <!-- Header (ลดขนาดลง) -->
+    <!-- Header -->
     <div class="relative header-image-bg p-6 md:p-8 text-center overflow-hidden flex justify-center">
         <div class="absolute inset-0 bg-gradient-to-b from-indigo-900/80 via-blue-900/70 to-cyan-900/90 mix-blend-multiply"></div>
         <div class="absolute inset-0 bg-blue-500/20 backdrop-blur-[2px]"></div>
@@ -142,8 +142,8 @@
         <!-- Controls -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 relative z-20">
             
-            <!-- แยกช่องค้นหา และ Scroll -->
-            <div class="group relative flex flex-col">
+            <!-- ช่องค้นหา (Dropdown ลอยตัว) -->
+            <div class="group flex flex-col relative z-30">
                 <label class="block text-sm font-semibold text-slate-700 mb-2 transition-colors group-focus-within:text-indigo-600">
                     <div class="bg-indigo-100 text-indigo-600 w-8 h-8 inline-flex items-center justify-center rounded-lg mr-2 shadow-sm">
                         <i class="fa-solid fa-capsules"></i>
@@ -151,30 +151,34 @@
                     ค้นหาและเลือกชื่อสามัญทางยา
                 </label>
                 
-                <!-- 1. ช่องค้นหา (Input) -->
-                <div class="relative mb-3">
+                <div class="relative">
                     <input type="text" id="searchInput" placeholder="พิมพ์ชื่อยาเพื่อกรองรายการ..." autocomplete="off"
-                           class="w-full bg-slate-50 border-2 border-slate-200 text-slate-800 text-sm md:text-base rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block p-3 pr-10 shadow-inner transition-all outline-none font-medium placeholder:text-slate-400 hover:bg-white focus:bg-white">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                           class="w-full bg-slate-50 border-2 border-slate-200 text-slate-800 text-sm md:text-base rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block p-3 pr-10 shadow-inner transition-all outline-none font-medium placeholder:text-slate-400 hover:bg-white focus:bg-white cursor-pointer">
+                    
+                    <div id="searchIcon" class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none transition-opacity">
                         <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
                     </div>
-                </div>
+                    <!-- ปุ่มล้างค่า -->
+                    <div id="clearSearchBtn" class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer hidden transition-all" onclick="clearSearch()">
+                        <i class="fa-solid fa-circle-xmark text-slate-400 hover:text-red-500 text-lg"></i>
+                    </div>
 
-                <!-- 2. ช่องแสดงรายการแบบ Scroll (List Box) -->
-                <div id="drugListBox" class="w-full bg-white border-2 border-slate-200 rounded-xl h-44 md:h-48 overflow-y-auto custom-scrollbar shadow-inner transition-colors">
-                    <!-- รายการยาจะถูกสร้างตรงนี้ด้วย JavaScript -->
+                    <!-- List Box (Dropdown แบบลอยทับ) -->
+                    <div id="drugListBox" class="absolute top-full left-0 w-full mt-1.5 bg-white border border-slate-200 rounded-xl max-h-[250px] overflow-y-auto custom-scrollbar shadow-2xl z-50 hidden">
+                        <!-- รายการยาจะถูกสร้างตรงนี้ด้วย JavaScript -->
+                    </div>
                 </div>
             </div>
 
             <!-- Patient Right Select -->
-            <div class="group">
+            <div class="group flex flex-col relative z-10">
                 <label for="rightSelect" class="block text-sm font-semibold text-slate-700 mb-2 transition-colors group-focus-within:text-blue-600">
                     <div class="bg-blue-100 text-blue-600 w-8 h-8 inline-flex items-center justify-center rounded-lg mr-2 shadow-sm">
                         <i class="fa-solid fa-id-card-clip"></i>
                     </div>
                     เลือกสิทธิการรักษา
                 </label>
-                <div class="relative h-44 md:h-48 flex flex-col"> <!-- ปรับให้ความสูงล้อกับกรอบยาด้านซ้าย -->
+                <div class="relative w-full">
                     <select id="rightSelect" class="w-full bg-slate-50 border-2 border-slate-200 text-slate-800 text-sm md:text-base rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 block p-3 pr-10 shadow-inner transition-all outline-none cursor-pointer hover:bg-white focus:bg-white font-medium">
                         <option value="" disabled selected>-- กรุณาเลือกสิทธิการรักษา --</option>
                         <option value="สปสช">สปสช (บัตรทอง)</option>
@@ -207,7 +211,7 @@
     <div class="bg-gradient-to-b from-slate-50/50 to-slate-100/80 p-5 border-t border-slate-200 shadow-[0_-10px_20px_rgba(0,0,0,0.02)] relative z-10">
         <div class="flex flex-col items-center justify-center text-center">
             <p class="text-slate-600 font-medium mb-3 text-[13px] md:text-sm px-2 leading-relaxed flex items-center gap-2">
-                <i class="fa-solid fa-headset text-indigo-500"></i> งานผลิตยา ตึกรังสีรักษา กลุ่มงานเภสัชกรรม รพ.สกลนคร
+                <i class="fa-solid fa-headset text-indigo-500"></i> งานผลิตยา ตึกรังสีรักษา กลุ่มงานเภสัชกรรม โรงพยาบาลสกลนคร
             </p>
             <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5 w-full sm:w-auto">
                 <a href="tel:042176000" class="no-wrap w-full sm:w-auto flex items-center justify-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 hover:border-emerald-400 hover:shadow-md transition-all group">
@@ -231,7 +235,7 @@
     const drugDatabase = {
         "Atezolizumab": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "TECENTRIQ", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: "PAP: OCPA บริษัทจะสนับสนุนยาฟรี 3-4 cycle แรก" }, "ชำระเงินเอง": { trade: "TECENTRIQ", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเองตามเงื่อนไขของโรงพยาบาล", pap: "PAP: ซื้อยาครบ 15 รอบ ได้รับสนับสนุนรอบที่ 16-35 และ 51-70" } },
         "Bevacizumab IV": { "สปสช": { trade: "ABEVMY", condition: "จ.2", detail: "สามารถใช้ยาได้ตามเงื่อนไข จ.2 โปรดตรวจสอบว่ามีการบันทึกข้อมูล จ.2 แล้วก่อนใช้ยา<br><span class='text-emerald-700 text-xs mt-1 block'>*ข้อบ่งชี้: Advanced fallopian tube/ peritoneal CA</span>", pap: null }, "ปกส": { trade: "AVEGRA", condition: "จ.2", detail: "สามารถใช้ยาได้ตามเงื่อนไข จ.2 โปรดตรวจสอบว่ามีการบันทึกข้อมูล จ.2 แล้วก่อนใช้ยา<br><span class='text-emerald-700 text-xs mt-1 block'>*ข้อบ่งชี้: Advanced fallopian tube/ peritoneal CA</span>", pap: null }, "จ่ายตรง": { trade: "VERSAVO", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: null }, "ชำระเงินเอง": { trade: "MVASI / VERSAVO", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเองตามเงื่อนไขของโรงพยาบาล", pap: null } },
-        "Bortezomib": { "สปสช": { trade: "Approved", condition: "จ.2", detail: "สามารถใช้ยาได้ตามเงื่อนไข จ.2 โปรดตรวจสอบว่ามีการบันทึกข้อมูล จ.2 แล้วก่อนใช้ยา", pap: null }, "ปกส": { trade: "Approved", condition: "จ.2", detail: "สามารถใช้ยาได้ตามเงื่อนไข จ.2 โปรดตรวจสอบว่ามีการบันทึกข้อมูล จ.2 แล้วก่อนใช้ยา", pap: null }, "จ่ายตรง": { trade: "Approved", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: null }, "ชำระเงินเอง": { trade: "Approved", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: null } },
+        "Bortezomib": { "สปสช": { trade: "Bortezomib", condition: "จ.2", detail: "สามารถใช้ยาได้ตามเงื่อนไข จ.2 โปรดตรวจสอบว่ามีการบันทึกข้อมูล จ.2 แล้วก่อนใช้ยา", pap: null }, "ปกส": { trade: "Bortezomib", condition: "จ.2", detail: "สามารถใช้ยาได้ตามเงื่อนไข จ.2 โปรดตรวจสอบว่ามีการบันทึกข้อมูล จ.2 แล้วก่อนใช้ยา", pap: null }, "จ่ายตรง": { trade: "Bortezomib", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: null }, "ชำระเงินเอง": { trade: "Bortezomib", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: null } },
         "Cabazitaxel": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "Cabazitaxel", condition: "ว.34", detail: "รายการ ว.34 สิทธิจ่ายตรงใช้ได้แต่ห้ามรูดบัตรหรือเบิกDRG คนไข้ต้องสำรองจ่าย และนำใบเสร็จกลับไปเบิกกับต้นสังกัดด้วยตนเอง (ใช้ใน OPD เท่านั้น)", pap: null }, "ชำระเงินเอง": { trade: "Cabazitaxel", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: null } },
         "Denosumab": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "XGEVA", condition: "ว.34", detail: "รายการ ว.34 สิทธิจ่ายตรงใช้ได้แต่ห้ามรูดบัตรหรือเบิกDRG คนไข้ต้องสำรองจ่าย และนำใบเสร็จกลับไปเบิกกับต้นสังกัดด้วยตนเอง", pap: null }, "ชำระเงินเอง": { trade: "XGEVA", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: null } },
         "Durvalumab": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "IMFINZI", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: "BW < 75 ให้ weight-based q 2 wk → ครบ 14 ครั้ง FREE C15 - C26<br>BW > 75 ให้ fix dose 1500 q 4 wk → ครบ 7 ครั้ง FREE C8 - C12" }, "ชำระเงินเอง": { trade: "IMFINZI", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: "BW < 75 ให้ weight-based q 2 wk → ครบ 14 ครั้ง FREE C15 - C26<br>BW > 75 ให้ fix dose 1500 q 4 wk → ครบ 7 ครั้ง FREE C8 - C12" } },
@@ -246,11 +250,11 @@
         "Pembrolizumab": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "KEYTRUDA", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: "PAP: บริษัทยาสนับสนุนยารอบที่ 1 และ 11 - 35 (adjuvant melanoma สนับสนุน ถึง รอบ 17)" }, "ชำระเงินเอง": { trade: "KEYTRUDA", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: "PAP: ซื้อครบ 10 รอบ สนันสนุน รอบที่ 11 เป็นต้นไป ไม่เกิน 2 ปี" } },
         "Pemetrexed": { "สปสช": { trade: "-", condition: "Special", detail: "สามารถใช้ยาได้ตามเงื่อนไข: บัญชี ง. 1L ใน CA เยื่อหุ้มปอด", pap: null }, "ปกส": { trade: "-", condition: "Special", detail: "สามารถใช้ยาได้ตามเงื่อนไข: บัญชี ง. 1L ใน CA เยื่อหุ้มปอด", pap: null }, "จ่ายตรง": { trade: "ALIMTA", condition: "Normal", detail: "สามารถใช้ยาได้ตามระบบเบิกจ่ายตรงตามปกติ (รูด EDC ตามปกติได้เลย)", pap: null }, "ชำระเงินเอง": { trade: "PEMIREX / PEMTERO", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: null } },
         "Pertuzumab": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "PERJETA", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: "R-PAP: OCPA PERJETA/PHESGO รับยา ครบ 17 cycle free ตั้งแต่ cycle ที่ 18 until PD" }, "ชำระเงินเอง": { trade: "PERJETA", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: null } },
-        "PHESGO": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "PHESGO", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: "R-PAP: OCPA PERJETA/PHESGO รับยา ครบ 17 cycle free ตั้งแต่ cycle ที่ 18 until PD" }, "ชำระเงินเอง": { trade: "PHESGO", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: null } },
+        "Pertuzumab/Trastuzumab SC": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "PHESGO", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: "R-PAP: OCPA PERJETA/PHESGO รับยา ครบ 17 cycle free ตั้งแต่ cycle ที่ 18 until PD" }, "ชำระเงินเอง": { trade: "PHESGO", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: null } },
         "Ramucirumab": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "CYRAMZA", condition: "ว.34", detail: "รายการ ว.34 สิทธิจ่ายตรงใช้ได้แต่ห้ามรูดบัตรหรือเบิกDRG คนไข้ต้องสำรองจ่าย และนำใบเสร็จกลับไปเบิกกับต้นสังกัดด้วยตนเอง", pap: "PAP: ชำระเงินครบ 8 ครั้ง ได้รับสนับสนุน C9 เป็นต้นไป free until progress" }, "ชำระเงินเอง": { trade: "CYRAMZA", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: "PAP: ชำระเงินครบ 8 ครั้ง ได้รับสนับสนุน C9 เป็นต้นไป free until progress" } },
         "Rituximab": { "สปสช": { trade: "TRUXIMA", condition: "จ.2", detail: "สามารถใช้ยาได้ตามเงื่อนไข จ.2 โปรดตรวจสอบว่ามีการบันทึกข้อมูล จ.2 แล้วก่อนใช้ยา", pap: null }, "ปกส": { trade: "TRUXIMA", condition: "จ.2", detail: "สามารถใช้ยาได้ตามเงื่อนไข จ.2 โปรดตรวจสอบว่ามีการบันทึกข้อมูล จ.2 แล้วก่อนใช้ยา", pap: null }, "จ่ายตรง": { trade: "TRUXIMA", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: null }, "ชำระเงินเอง": { trade: "TRUXIMA", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: null } },
-        "T-DM1": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "KADCYLA", condition: "ว.34", detail: "รายการ ว.34 สิทธิจ่ายตรงใช้ได้แต่ห้ามรูดบัตรหรือเบิกDRG คนไข้ต้องสำรองจ่าย และนำใบเสร็จกลับไปเบิกกับต้นสังกัดด้วยตนเอง", pap: "PAP: ซื้อ 3 cycle → FREE 2 cycle" }, "ชำระเงินเอง": { trade: "KADCYLA", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: "PAP: ซื้อ 3 cycle → FREE 2 cycle" } },
-        "T-Dxd": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "ENHERTU", condition: "Normal", detail: "สามารถใช้ยาได้ตามระบบเบิกจ่ายตรงตามปกติ (รูด EDC ตามปกติได้เลย)", pap: "PAP: ซื้อ 2 CYCLE → FREE 1 CYCLE" }, "ชำระเงินเอง": { trade: "ENHERTU", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: "PAP: ซื้อ 2 CYCLE → FREE 1 CYCLE" } },
+        "Trastuzumab emtansine (T-DM1)": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "KADCYLA", condition: "ว.34", detail: "รายการ ว.34 สิทธิจ่ายตรงใช้ได้แต่ห้ามรูดบัตรหรือเบิกDRG คนไข้ต้องสำรองจ่าย และนำใบเสร็จกลับไปเบิกกับต้นสังกัดด้วยตนเอง", pap: "PAP: ซื้อ 3 cycle → FREE 2 cycle" }, "ชำระเงินเอง": { trade: "KADCYLA", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: "PAP: ซื้อ 3 cycle → FREE 2 cycle" } },
+        "Trastuzumab deruxtecan (T-Dxd)": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "ENHERTU", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: "PAP: ซื้อ 2 CYCLE → FREE 1 CYCLE" }, "ชำระเงินเอง": { trade: "ENHERTU", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: "PAP: ซื้อ 2 CYCLE → FREE 1 CYCLE" } },
         "Trastuzumab": { "สปสช": { trade: "ARYOTRUST", condition: "จ.2", detail: "สามารถใช้ยาได้ตามเงื่อนไข จ.2 โปรดตรวจสอบว่ามีการบันทึกข้อมูล จ.2 แล้วก่อนใช้ยา", pap: null }, "ปกส": { trade: "OGIVRI", condition: "จ.2", detail: "สามารถใช้ยาได้ตามเงื่อนไข จ.2 โปรดตรวจสอบว่ามีการบันทึกข้อมูล จ.2 แล้วก่อนใช้ยา", pap: null }, "จ่ายตรง": { trade: "HERZUMA", condition: "OCPA", detail: "สามารถใช้ยาได้ตามเงื่อนไข OCPA โปรดตรวจสอบสถานะการอนุมัติและวันหมดอายุ OCPA", pap: null }, "ชำระเงินเอง": { trade: "HERZUMA", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: null } },
         "Vinorelbine": { "สปสช": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "ปกส": { trade: "-", condition: "Not Approved", detail: "ไม่อนุมัติสิทธิ์", pap: null }, "จ่ายตรง": { trade: "VINOBEL", condition: "Normal", detail: "สามารถใช้ยาได้ตามระบบเบิกจ่ายตรงตามปกติ (รูด EDC ตามปกติได้เลย)", pap: null }, "ชำระเงินเอง": { trade: "VINOBEL", condition: "Self", detail: "ผู้ป่วยต้องชำระค่าใช้จ่ายเอง", pap: "PAP: ชำระ 1 vial ได้สนับสนุน 1 vial ตลอดการรักษา" } }
     };
@@ -260,12 +264,14 @@
     const rightSelect = document.getElementById('rightSelect');
     const emptyState = document.getElementById('emptyState');
     const resultCard = document.getElementById('resultCard');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const searchIcon = document.getElementById('searchIcon');
 
     let currentShareData = null;
     let selectedDrugValue = "";
     const sortedDrugs = Object.keys(drugDatabase).sort((a, b) => a.localeCompare(b));
 
-    // วาดรายการยาใน List Box แบบตายตัว
+    // ฟังก์ชันวาดรายการยา
     function renderDrugList(filterText = '') {
         drugListBox.innerHTML = '';
         const filtered = sortedDrugs.filter(drug => drug.toLowerCase().includes(filterText.toLowerCase()));
@@ -285,9 +291,15 @@
                     ${isSelected ? '<i class="fa-solid fa-check text-indigo-500"></i>' : ''}
                 `;
 
-                div.onclick = () => { 
+                div.onclick = (e) => { 
+                    e.stopPropagation();
                     selectedDrugValue = drug;
-                    renderDrugList(searchInput.value); // Re-render เพื่ออัปเดตแถบไฮไลท์
+                    searchInput.value = drug; 
+                    
+                    searchIcon.classList.add('hidden');
+                    clearSearchBtn.classList.remove('hidden');
+                    
+                    drugListBox.classList.add('hidden');
                     updateResult();
                 };
                 drugListBox.appendChild(div);
@@ -295,12 +307,41 @@
         }
     }
 
-    // แสดงรายการยาทั้งหมดตอนโหลดหน้า
-    renderDrugList();
+    // ฟังก์ชันล้างค่าค้นหา
+    function clearSearch() {
+        selectedDrugValue = "";
+        searchInput.value = "";
+        searchIcon.classList.remove('hidden');
+        clearSearchBtn.classList.add('hidden');
+        renderDrugList();
+        drugListBox.classList.remove('hidden');
+        updateResult();
+        searchInput.focus();
+    }
+
+    // เมื่อคลิกที่ช่องค้นหา ให้แสดงกล่องรายชื่อยา
+    searchInput.addEventListener('focus', () => {
+        drugListBox.classList.remove('hidden');
+        renderDrugList(searchInput.value);
+    });
 
     // กรองรายการยาเมื่อพิมพ์
     searchInput.addEventListener('input', (e) => {
+        drugListBox.classList.remove('hidden');
+        if(e.target.value !== selectedDrugValue) {
+            selectedDrugValue = ""; 
+            searchIcon.classList.remove('hidden');
+            clearSearchBtn.classList.add('hidden');
+        }
         renderDrugList(e.target.value);
+        updateResult();
+    });
+
+    // ซ่อน Dropdown เมื่อคลิกที่อื่นบนหน้าจอ
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !drugListBox.contains(e.target) && !clearSearchBtn.contains(e.target)) {
+            drugListBox.classList.add('hidden');
+        }
     });
 
     // ทริกเกอร์ตอนเลือกสิทธิการรักษา
@@ -337,6 +378,7 @@
         else if (data.condition === "OCPA") { theme = { border: "border-indigo-200", bg: "bg-indigo-50", icon: "fa-laptop-medical", iconColor: "text-indigo-500", textAlert: "text-indigo-800", badgeBg: "bg-indigo-600", badgeText: "text-white" }; } 
         else if (data.condition === "จ.2") { theme = { border: "border-emerald-200", bg: "bg-emerald-50", icon: "fa-file-signature", iconColor: "text-emerald-500", textAlert: "text-emerald-800", badgeBg: "bg-emerald-500", badgeText: "text-white" }; } 
         else if (data.condition === "ว.34") { theme = { border: "border-amber-200", bg: "bg-amber-50", icon: "fa-credit-card", iconColor: "text-amber-500", textAlert: "text-amber-800", badgeBg: "bg-amber-500", badgeText: "text-white" }; } 
+        else if (data.condition === "Self") { theme = { border: "border-orange-200", bg: "bg-orange-50", icon: "fa-wallet", iconColor: "text-orange-500", textAlert: "text-orange-800", badgeBg: "bg-orange-500", badgeText: "text-white" }; }
         else { theme = { border: "border-slate-200", bg: "bg-slate-50", icon: "fa-check-circle", iconColor: "text-slate-500", textAlert: "text-slate-800", badgeBg: "bg-slate-200", badgeText: "text-slate-700" }; }
 
         const tradeNameHTML = data.trade === "-" ? `<span class="text-red-500 font-medium text-base md:text-lg">ไม่มีสิทธิ์เบิกจ่าย</span>` : `<span class="text-slate-900 font-bold text-lg md:text-2xl tracking-wide">${data.trade}</span>`;
@@ -358,20 +400,28 @@
         }
 
         resultCard.innerHTML = `
-            <div class="bg-white border-2 ${theme.border} rounded-2xl md:rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 w-full">
-                <div id="slip-content" class="bg-white">
-                    <div class="${theme.bg} px-4 md:px-6 py-4 md:py-5 border-b ${theme.border} flex flex-row items-center justify-between gap-2">
+            <div class="bg-white border-2 ${theme.border} rounded-2xl md:rounded-3xl overflow-hidden shadow-lg shadow-slate-200/50 w-full relative">
+                <!-- ส่วนประกอบที่นำไปวาดรูปภาพ -->
+                <div id="slip-content" class="bg-white flex flex-col">
+                    
+                    <!-- ส่วนหัวที่จะแสดงในรูปภาพเพื่อความเป็นทางการ -->
+                    <div class="${theme.bg} px-4 md:px-6 py-4 border-b ${theme.border} flex flex-row items-center justify-between gap-2">
                         <div class="flex items-center gap-2 md:gap-3">
                             <div class="bg-white p-1.5 md:p-2 rounded-xl shadow-sm shimmer-box">
                                 <i class="fa-solid ${theme.icon} ${theme.iconColor} text-lg md:text-xl w-5 md:w-6 text-center"></i>
                             </div>
-                            <span class="font-bold text-[15px] md:text-lg ${theme.textAlert}">${data.condition === 'Not Approved' ? 'ไม่อนุมัติสิทธิ์' : 'อนุมัติให้ใช้ได้'}</span>
+                            <div class="flex flex-col">
+                                <span class="font-bold text-[15px] md:text-lg ${theme.textAlert}">${data.condition === 'Not Approved' ? 'ไม่อนุมัติสิทธิ์' : 'อนุมัติให้ใช้ได้'}</span>
+                                <span class="text-[10px] md:text-xs text-slate-500 font-medium">แบบสรุปเงื่อนไขการใช้ยา</span>
+                            </div>
                         </div>
                         <span class="px-3 md:px-4 py-1 md:py-1.5 text-[10px] md:text-xs font-bold rounded-full ${theme.badgeBg} ${theme.badgeText} shadow-sm border border-black/5 tracking-wide whitespace-nowrap">
                             ${data.condition}
                         </span>
                     </div>
-                    <div class="p-4 md:p-8">
+
+                    <!-- เนื้อหาบัตร -->
+                    <div class="p-4 md:p-8 flex-1">
                         <div class="flex flex-col sm:flex-row gap-3 md:gap-4 mb-4 md:mb-6">
                             <div class="bg-slate-50/80 p-3 md:p-4 rounded-xl border border-slate-100 flex-1 min-w-0">
                                 <span class="block text-[10px] md:text-[11px] text-slate-500 font-bold mb-1 uppercase tracking-widest">ชื่อสามัญ (Generic)</span>
@@ -394,9 +444,17 @@
                         </div>
                         ${papHtml}
                     </div>
+
+                    <!-- ส่วนท้ายอ้างอิงเพื่อความน่าเชื่อถือในรูปภาพ -->
+                    <div class="px-5 md:px-8 py-3 bg-slate-50 border-t border-slate-100 flex justify-between items-center text-[10px] md:text-xs text-slate-400 font-medium">
+                        <span><i class="fa-solid fa-hospital mr-1 text-slate-300"></i>โรงพยาบาลสกลนคร</span>
+                        <span>ข้อมูล ณ วันที่: ${new Date().toLocaleDateString('th-TH')}</span>
+                    </div>
+
                 </div>
                 
-                <div class="bg-slate-50 border-t border-slate-100 p-4 md:p-6 flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center w-full" data-html2canvas-ignore="true">
+                <!-- ชุดปุ่มคำสั่ง (ไม่แสดงในรูปภาพ) -->
+                <div class="bg-white border-t border-slate-100 p-4 md:p-6 flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center w-full shadow-[0_-5px_15px_rgba(0,0,0,0.02)]" data-html2canvas-ignore="true">
                     <button onclick="shareToLine()" class="w-full sm:w-auto flex justify-center items-center gap-2 bg-[#00B900] hover:bg-[#009900] text-white px-4 py-2.5 md:py-3 rounded-xl text-sm md:text-base font-semibold shadow-sm transition-all hover:shadow-md">
                         <i class="fa-brands fa-line text-lg"></i> ส่ง LINE
                     </button>
@@ -414,8 +472,8 @@
     function generateShareText() {
         if (!currentShareData) return "";
         const d = currentShareData;
-        const cleanDetail = d.detail.replace(/<br\s*[\/]?>/gi, "\n").replace(/<[^>]+>/g, '');
-        const cleanPap = d.pap ? d.pap.replace(/<br\s*[\/]?>/gi, "\n").replace(/<[^>]+>/g, '') : "";
+        const cleanDetail = d.detail.replace(/<br\s*[\/]?>/gi, "\n").replace(/<\/?span[^>]*>/gi, '');
+        const cleanPap = d.pap ? d.pap.replace(/<br\s*[\/]?>/gi, "\n").replace(/<\/?span[^>]*>/gi, '') : "";
 
         let text = `🏥 ตรวจสอบสิทธิการใช้ยา\n`;
         text += `──────────────\n`;
@@ -442,7 +500,11 @@
     }
 
     function downloadSlip() {
-        html2canvas(document.getElementById('slip-content'), { scale: 2, backgroundColor: '#ffffff', useCORS: true }).then(canvas => {
+        html2canvas(document.getElementById('slip-content'), { 
+            scale: 3, 
+            backgroundColor: '#ffffff', 
+            useCORS: true 
+        }).then(canvas => {
             const link = document.createElement('a');
             link.download = `สิทธิยา_${currentShareData.drug}_${currentShareData.right}.png`;
             link.href = canvas.toDataURL('image/png');
